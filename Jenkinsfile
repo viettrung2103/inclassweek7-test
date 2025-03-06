@@ -10,11 +10,6 @@ pipeline {
             DOCKER_IMAGE_TAG = 'latest_v1'
         }
     stages {
-        stage('Build') {
-                steps {
-                    sh '/path/to/maven/bin/mvn clean install'
-                }
-            }
         stage('Checkout') {
             steps {
                 git 'https://github.com/cindy3377/inclassweek7.git'
@@ -22,7 +17,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                sh '/path/to/maven/bin/mvn clean install'
             }
         }
         stage('Test') {
