@@ -10,6 +10,8 @@ pipeline {
         DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
         DOCKERHUB_REPO = 'cindy3377/inclassweek7'
         DOCKER_IMAGE_TAG = 'latest_v1'
+        // Set PATH explicitly for Jenkins
+        PATH = "/usr/local/bin:$PATH"
     }
     stages {
         stage('Checkout') {
