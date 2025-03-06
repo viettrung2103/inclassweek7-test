@@ -4,7 +4,8 @@ pipeline {
             // Define Docker Hub credentials ID
             DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
             // Define Docker Hub repository name
-            DOCKERHUB_REPO = 'amirdirin/week7_inclass_test1'
+            //CHAN GE THIS ACCORDING TO YOUR GITHUB LINK IN DOCKER
+            DOCKERHUB_REPO = 'cindy3377/inclassweek7'
             // Define Docker image tag
             DOCKER_IMAGE_TAG = 'latest_v1'
         }

@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
-        <finalName>tripcalaculator</finalName>
+        <finalName>tripcalculator</finalName>
         <plugins>
             <!-- Compiler Plugin for setting the Java version -->
             <plugin>
