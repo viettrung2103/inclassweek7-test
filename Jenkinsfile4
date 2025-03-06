@@ -1,32 +1,36 @@
 pipeline {
     agent any
+    tools {
+        maven 'Maven3'
+        jdk 'JDK 21'
+    }
+
     environment {
-        // Define Docker Hub credentials ID
-        DOCKERHUB_CREDENTIALS_ID = 'DOCKER_HUB'
-        // Define Docker Hub repository name
-        DOCKERHUB_REPO = 'cindy3377/w7-inclass-test'
-        // Define Docker image tag
+        DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub1'
+        DOCKERHUB_REPO = 'cindy3377/inclassweek7'
         DOCKER_IMAGE_TAG = 'latest_v1'
+        // Set PATH explicitly for Jenkins
+        PATH = "/usr/local/bin:$PATH"
     }
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/viettrung2103/inclassweek7-test.git'
+                git 'https://github.com/cindy3377/inclassweek7.git'
             }
         }
         stage('Build') {
             steps {
-                bat 'mvn clean install'
+                sh 'mvn clean install'
             }
         }
         stage('Test') {
             steps {
-                bat 'mvn test'
+                sh 'mvn test'
             }
         }
         stage('Code Coverage') {
             steps {
-                bat 'mvn jacoco:report'
+                sh 'mvn jacoco:report'
             }
         }
         stage('Publish Test Results') {
@@ -45,7 +49,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS_ID,
                                                      usernameVariable: 'DOCKERHUB_USER',
                                                      passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                        bat "docker login -u %DOCKERHUB_USER% --password %DOCKERHUB_PASSWORD%"
+                        sh "docker login -u %DOCKERHUB_USER% --password %DOCKERHUB_PASSWORD%"
                     }
                 }
             }
@@ -53,16 +57,16 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat "docker build -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} ."
+                    sh "docker build -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} ."
                 }
             }
         }
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                    bat "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
+                    sh "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
                 }
             }
         }
-    }
+   }
 }
