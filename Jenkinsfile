@@ -43,16 +43,28 @@ pipeline {
                 jacoco()
             }
         }
+        stage('Docker Login') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS_ID,
+                                                     usernameVariable: 'DOCKERHUB_USER',
+                                                     passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                        sh "docker login -u %DOCKERHUB_USER% --password %DOCKERHUB_PASSWORD%"
+                    }
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} ."
+                }
+            }
+        }
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: DOCKERHUB_CREDENTIALS_ID, usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                        // Log in to Docker Hub
-                        sh "echo ${DOCKERHUB_PASSWORD} | docker login -u ${DOCKERHUB_USER} --password-stdin"
-
-                        // Push Docker images to Docker Hub
-                        sh "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
-                    }
+                    sh "docker push ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}"
                 }
             }
         }
