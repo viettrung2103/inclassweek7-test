@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
+        DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub1'
         DOCKERHUB_REPO = 'cindy3377/inclassweek7'
         DOCKER_IMAGE_TAG = 'latest_v1'
         // Set PATH explicitly for Jenkins
