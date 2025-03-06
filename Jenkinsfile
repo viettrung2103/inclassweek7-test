@@ -1,26 +1,16 @@
 pipeline {
     agent any
+    tools {
+        maven 'Maven3'
+        jdk 'java_Home'
+    }
+
     environment {
         DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
         DOCKERHUB_REPO = 'cindy3377/inclassweek7'
         DOCKER_IMAGE_TAG = 'latest_v1'
     }
     stages {
-        stage('Install Maven') {
-            steps {
-                sh '''
-                # Check if Maven is installed
-                if ! command -v mvn &> /dev/null
-                then
-                    echo "Maven not found, installing..."
-                    sudo apt update && sudo apt install -y maven
-                else
-                    echo "Maven is already installed."
-                fi
-                mvn -version
-                '''
-            }
-        }
         stage('Checkout') {
             steps {
                 git 'https://github.com/cindy3377/inclassweek7.git'
